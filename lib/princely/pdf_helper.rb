@@ -20,14 +20,24 @@ module PdfHelper
   
   def make_pdf(options = {})
     options[:stylesheets] ||= []
-    options[:layout] ||= false
+    options[:layout] ||= false    
     options[:template] ||= File.join(controller_path,action_name)
+    
+    # assemble render method options, allow for layout only option
+    render_options = Hash.new
+    render_options[:stylesheets] = options[:stylesheets]
+    render_options[:stylesheets] = options[:layout]
+    if options[:nothing]
+      render_options[:nothing] = true
+    else      
+      render_options[:template] = options[:template]
+    end
     
     prince = Princely.new()
     # Sets style sheets on PDF renderer
     prince.add_style_sheets(*options[:stylesheets].collect{|style| stylesheet_file_path(style)})
     
-    html_string = render_to_string(:template => options[:template], :layout => options[:layout])
+    html_string = render_to_string(render_options)
     
     # Make all paths relative, on disk paths...
     html_string.gsub!(".com:/",".com/") # strip out bad attachment_fu URLs
