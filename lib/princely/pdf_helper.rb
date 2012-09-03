@@ -25,8 +25,7 @@ module PdfHelper
     
     # assemble render method options, allow for layout only option
     render_options = Hash.new
-    render_options[:stylesheets] = options[:stylesheets]
-    render_options[:stylesheets] = options[:layout]
+    render_options[:layout] = options[:layout]
     if options[:nothing]
       render_options[:nothing] = true
     else      
