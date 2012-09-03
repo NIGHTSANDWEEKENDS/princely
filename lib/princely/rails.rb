@@ -1,6 +1,6 @@
 require 'princely/pdf_helper'
 
-unless Mime::Type.looku_by_extension(:pdf)
+unless Mime::Type.lookup_by_extension(:pdf)
   Mime::Type.register 'application/pdf', :pdf
 end
 
