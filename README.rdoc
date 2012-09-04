@@ -1,13 +1,14 @@
 = Princely
 
 Princely is a simple wrapper for the Prince XML PDF generation library 
-(http://www.princexml.com). The plugin will also automatically registers 
-the PDF MimeType so that you can use pdf as a format in controller 
+(http://www.princexml.com). The gem will also automatically register
+the PDF MimeType if not already regiested so that you can use the format in controller 
 respond_to blocks.
 
 == Example
 
-    class Provider::EstimatesController < Provider::BaseController
+    class Users::PortfoliosController < Users::BaseController
+
       # You can render PDF templates simply by
       # using the :pdf option on render templates.
       def show
@@ -15,9 +16,23 @@ respond_to blocks.
           format.html
           format.pdf do
             render :pdf => "file_name", 
-                   :template => "controller/action.pdf.erb",
-                   :stylesheets => ["application","prince"]
-                   :layout => "pdf"
+            :template => "controller/action.pdf.erb",
+            :stylesheets => ["application","prince"],
+            :layout => "pdf"
+          end
+        end
+      end
+
+      # You can also render no template and just a layout
+      # same syntax as the rails dsl
+      def show
+        respond_to do |format|
+          format.html
+          format.pdf do
+            render :pdf => "file_name", 
+            :nothing => true,
+            :stylesheets => ["application","prince"],
+            :layout => "pdf"
           end
         end
       end
@@ -34,14 +49,16 @@ respond_to blocks.
 
 The defaults for the render options are as follows:
 
+    nothing:     nil
     layout:      false
     template:    the template for the current controller/action
-    stylesheets: none
+    stylesheets: empty array
 
 == Contributors
 
 * Gemification and more: Nic Williams
+* Improvements: Richard Calahan
 
 == Resources
 
-* Copyright (c) 2007-2009 Michael Bleigh and Intridea, Inc., released under the MIT license.
+* Copyright (c) 2007-2009 Michael Bleigh and Intridea, Inc., (c) 2012 Richard Calahan and All Day Everyday. released under the MIT license.
