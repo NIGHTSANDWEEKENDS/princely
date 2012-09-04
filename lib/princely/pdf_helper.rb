@@ -36,7 +36,6 @@ module PdfHelper
     # Sets style sheets on PDF renderer
     prince.add_style_sheets(*options[:stylesheets].collect{|style| stylesheet_file_path(style)})
     
-    puts render_options
     html_string = render_to_string(render_options)
     
     # Make all paths relative, on disk paths...
